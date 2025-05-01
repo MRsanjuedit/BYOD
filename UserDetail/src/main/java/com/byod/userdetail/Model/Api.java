@@ -12,7 +12,7 @@ public class Api {
 
     @Id
     @GeneratedValue
-    @Column(name = "api_id", columnDefinition = "UUID")
+    @Column(name = "apiId", columnDefinition = "UUID")
     private UUID id;
 
     @Column(name = "api_name", nullable = false)
