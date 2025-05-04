@@ -29,7 +29,7 @@ public class ApiServiceImplements implements ApiService {
     }
 
     @Override
-    public Api createApiForUser(String userId, String apiName, long expiryMinutes) {
+    public Api createApiForUser(Long userId, String apiName, Long expiryMinutes) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserIdNotFoundException(userId));
 
@@ -50,8 +50,9 @@ public class ApiServiceImplements implements ApiService {
         return apiRepository.save(api);
     }
 
+
     @Override
-    public String deleteApiForUser(String userId, String apiId) {
+    public String deleteApiForUser(Long userId, Long apiId) {
         // Delete directly based on userId and apiId; skip pre-checks
         int deletedCount = apiRepository.deleteByUserIdAndId(userId, apiId);
 

@@ -1,6 +1,7 @@
 package com.byod.userdetail.Model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -12,19 +13,23 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "user_id", nullable = false ,columnDefinition = "VARCHAR")
-    private String id;
+    @Column(name = "user_id", nullable = false )
+    private Long id;
 
     @Column(name = "first_name", nullable = false)
+    @JsonProperty("firstName")
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
+    @JsonProperty("lastName")
     private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
+    @JsonProperty("email")
     private String email;
 
     @Column(name = "password", nullable = false)
+    @JsonProperty("password")
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -34,11 +39,11 @@ public class User {
     // Getters and setters...
 
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

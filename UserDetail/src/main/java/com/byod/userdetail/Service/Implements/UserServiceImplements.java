@@ -29,7 +29,12 @@ public class UserServiceImplements implements UserService {
         if(userRepository.existsByEmail(user.getEmail())) {
             throw new EmailAlreadyExistsException(user.getEmail());
         }
-        return userRepository.save(user);
+        User newUser = new User();
+        newUser.setEmail(user.getEmail());
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setPassword(user.getPassword());
+        return userRepository.save(newUser);
     }
 
     @Override
