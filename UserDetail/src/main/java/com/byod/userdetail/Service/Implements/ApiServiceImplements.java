@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.lang.String;
 
 @Service
 @Transactional
@@ -29,7 +29,7 @@ public class ApiServiceImplements implements ApiService {
     }
 
     @Override
-    public Api createApiForUser(UUID userId, String apiName, long expiryMinutes) {
+    public Api createApiForUser(String userId, String apiName, long expiryMinutes) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserIdNotFoundException(userId));
 
@@ -51,7 +51,7 @@ public class ApiServiceImplements implements ApiService {
     }
 
     @Override
-    public String deleteApiForUser(UUID userId, UUID apiId) {
+    public String deleteApiForUser(String userId, String apiId) {
         // Delete directly based on userId and apiId; skip pre-checks
         int deletedCount = apiRepository.deleteByUserIdAndId(userId, apiId);
 

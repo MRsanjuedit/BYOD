@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.lang.String;
 
 @RestController
 @RequestMapping("/{userId}")
@@ -23,12 +23,12 @@ public class ApiController {
 
     @PostMapping("/create-api")
     @Tag(name = "Create an API", description = "It create an APIs for the user")
-    public ResponseEntity<Api> createApiForUser(@RequestBody String apiName, @PathVariable UUID userId) {
+    public ResponseEntity<Api> createApiForUser(@RequestBody String apiName, @PathVariable String userId) {
         return new ResponseEntity<>(apiService.createApiForUser(userId,apiName,60), HttpStatus.CREATED);
     }
     @DeleteMapping("/{api}/delete-api")
     @Tag(name = "Delete API" , description = "Delete an API of the Specific User ")
-    public ResponseEntity<String> deleteApiForUser(@PathVariable UUID userId, @PathVariable UUID api) {
+    public ResponseEntity<String> deleteApiForUser(@PathVariable String userId, @PathVariable String api) {
         return new ResponseEntity<>(apiService.deleteApiForUser(userId,api),HttpStatus.NO_CONTENT);
     }
 }

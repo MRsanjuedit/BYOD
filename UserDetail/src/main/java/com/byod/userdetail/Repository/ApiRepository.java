@@ -4,12 +4,12 @@ import com.byod.userdetail.Model.Api;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
+import java.lang.String;
 
 @Repository
-public interface ApiRepository extends JpaRepository<Api, UUID> {
+public interface ApiRepository extends JpaRepository<Api, String> {
     Boolean existsByName(String name);
-    Boolean existsByIdAndUserId(UUID id, UUID userId);
-    int deleteByUserIdAndId(UUID userId, UUID id);
+    Boolean existsByIdAndUserId(String id, String userId);
+    int deleteByUserIdAndId(String userId, String id);
 
 }

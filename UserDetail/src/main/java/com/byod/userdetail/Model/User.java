@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")  // Optional but recommended to avoid reserved keywords
@@ -13,8 +12,8 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "user_id", columnDefinition = "UUID")
-    private UUID id;
+    @Column(name = "user_id", nullable = false ,columnDefinition = "VARCHAR")
+    private String id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -35,11 +34,11 @@ public class User {
     // Getters and setters...
 
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

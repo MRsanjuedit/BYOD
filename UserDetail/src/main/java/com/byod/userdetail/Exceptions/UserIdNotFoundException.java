@@ -1,9 +1,9 @@
 package com.byod.userdetail.Exceptions;
 
-import java.util.UUID;
+import java.lang.String;
 
 public class UserIdNotFoundException extends RuntimeException{
-    public UserIdNotFoundException(UUID userId){
-        super(userId.toString());
+    public UserIdNotFoundException(String userId){
+        super(userId);
     }
 }

@@ -3,8 +3,9 @@ package com.byod.userdetail.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.lang.String;
 import java.time.LocalDateTime;
-import java.util.UUID;
+
 
 @Entity
 @Table(name = "apis")
@@ -12,14 +13,14 @@ public class Api {
 
     @Id
     @GeneratedValue
-    @Column(name = "apiId", columnDefinition = "UUID")
-    private UUID id;
+    @Column(name = "apiId")
+    private String id;
 
     @Column(name = "api_name", nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)  // Foreign key
+    @JoinColumn(name = "user_id", nullable = false , columnDefinition = "VARCHAR")  // Foreign key
     @JsonBackReference
     private User user;
 
@@ -30,11 +31,11 @@ public class Api {
     // Getters and setters...
 
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

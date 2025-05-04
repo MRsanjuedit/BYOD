@@ -1,24 +1,24 @@
-package com.byod.responserequesthandler.Service.ResponseRequestServiceImplement;
+package com.byod.responserequesthandler.Service.Implements;
 
+import com.byod.responserequesthandler.Security.SecurityMethodsImplement;
 import com.byod.responserequesthandler.Service.ResponseRequestService;
+import org.springframework.stereotype.Service;
 
-public class RRSImplementation implements ResponseRequestService , SecurityMethods{
-    @Override
-    public String decryptTheCipherText(String cipherText) {
+@Service
+public class RRSImplement implements ResponseRequestService {
+
+    public String decryptTheCipherText(String cipherText , String key) throws Exception {
         //perform decryption of cipher text
-        return cipherText;
+        return SecurityMethodsImplement.decryptTextCombined(cipherText,key);
     }
-    @Override
-    public String encryptThePlainText(String data) {
+    public String encryptThePlainText(String data , String key) throws Exception {
         //perform encryption of data
-        return data;
+        return SecurityMethodsImplement.encryptTextCombined(data,key);
     }
-    @Override
     public Boolean isUuidValid(String uuid) {
         //some operations in our database checking is uuid and api is valid
         return true;
     }
-    @Override
     public Boolean isApiValid(String uuid) {
         //some operations in our database checking is api is valid
         return true;
@@ -41,23 +41,21 @@ public class RRSImplementation implements ResponseRequestService , SecurityMetho
         return uuid != null && api != null && isApiValid(uuid) && isApiValid(api);
     }
 
-    @Override
-    public String doEncryption(String uuid , String api, String plainText) {
+    public String doEncryption(String uuid , String api, String plainText , String key) throws Exception {
         if(!isAuthenticated(uuid, api)) {
             return "Authentication Failed , Issue with UUID and API";
         }
         else{
-            return encryptThePlainText(plainText);
+            return encryptThePlainText(plainText , key);
         }
     }
 
-    @Override
-    public String doDecryption(String uuid, String api, String cipherText) {
+    public String doDecryption(String uuid, String api, String cipherText , String key) throws Exception {
         if(!isAuthenticated(uuid, api)) {
             return "Authentication Failed , Issue with UUID and API";
         }
         else{
-            return decryptTheCipherText(cipherText);
+            return decryptTheCipherText(cipherText , key);
         }
     }
 }
