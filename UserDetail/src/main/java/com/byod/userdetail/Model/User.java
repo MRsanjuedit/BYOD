@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")  // Optional but recommended to avoid reserved keywords
+@Table(name = "users")
 public class User {
 
     @Id

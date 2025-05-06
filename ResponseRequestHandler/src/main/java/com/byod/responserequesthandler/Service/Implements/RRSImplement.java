@@ -3,9 +3,22 @@ package com.byod.responserequesthandler.Service.Implements;
 import com.byod.responserequesthandler.Security.SecurityMethodsImplement;
 import com.byod.responserequesthandler.Service.ResponseRequestService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 public class RRSImplement implements ResponseRequestService {
+
+    private final WebClient webClient = WebClient.create();
+
+    public Boolean fetchDataFromUrl(String url) {
+        Mono<Boolean> responseMono = webClient.get()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(Boolean.class);  // Expecting a Boolean directly
+
+        return responseMono.block();  // Block to get actual Boolean value
+    }
 
     public String decryptTheCipherText(String cipherText , String key) throws Exception {
         //perform decryption of cipher text
@@ -15,33 +28,27 @@ public class RRSImplement implements ResponseRequestService {
         //perform encryption of data
         return SecurityMethodsImplement.encryptTextCombined(data,key);
     }
-    public Boolean isUuidValid(String uuid) {
+    public Boolean isUuidAndApiValid(Long uuid , Long apiId) {
         //some operations in our database checking is uuid and api is valid
-        return true;
-    }
-    public Boolean isApiValid(String uuid) {
-        //some operations in our database checking is api is valid
-        return true;
+        if(uuid == null || apiId == null) return false;
+        String url = "http://localhost:8080/check/"+uuid+"/"+apiId;
+        return fetchDataFromUrl(url);
     }
 
     @Override
-    public String testConnection(String uuid, String api) {
-        if(uuid == null) return "UUID is null";
-        else if(api == null) return "API is null";
-        else if(!isUuidValid(uuid)) return "Invalid UUID";
-        else{
-            if(!isApiValid(api)) return "API is not valid";
-            else return "Connection Establishment is Successful";
+    public String testConnection(Long uuid, Long apiId) {
+        if(isUuidAndApiValid(uuid,apiId) ) {
+            return "UUID and API are valid";
         }
-
+        return "UUID and API are invalid";
     }
 
     @Override
-    public Boolean isAuthenticated(String uuid, String api) {
-        return uuid != null && api != null && isApiValid(uuid) && isApiValid(api);
+    public Boolean isAuthenticated(Long uuid, Long api) {
+        return uuid != null && api != null && isUuidAndApiValid(uuid,api);
     }
 
-    public String doEncryption(String uuid , String api, String plainText , String key) throws Exception {
+    public String doEncryption(Long uuid , Long api, String plainText , String key) throws Exception {
         if(!isAuthenticated(uuid, api)) {
             return "Authentication Failed , Issue with UUID and API";
         }
@@ -50,7 +57,7 @@ public class RRSImplement implements ResponseRequestService {
         }
     }
 
-    public String doDecryption(String uuid, String api, String cipherText , String key) throws Exception {
+    public String doDecryption(Long uuid, Long api, String cipherText , String key) throws Exception {
         if(!isAuthenticated(uuid, api)) {
             return "Authentication Failed , Issue with UUID and API";
         }
